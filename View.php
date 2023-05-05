@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Dune\Pine;
 
-use Dune\Pine\Exception\ViewNotFound;
-use Dune\Pine\Exception\LayoutNotFound;
 use Dune\Pine\ViewInterface;
 use Dune\Pine\ViewContainer;
 use Dune\Pine\FileMapper;
-use Dune\Pine\CaptureLayout;
 use Dune\Pine\Engine\ProcceserEngine;
 
 class View implements ViewInterface
@@ -42,12 +39,6 @@ class View implements ViewInterface
      * @var FileMapper
      */
     public FileMapper $mapper;
-    /**
-     * \Dune\Pine\CaptureLayout instance
-     *
-     * @var CaptureLayout
-     */
-    public CaptureLayout $capture;
 
     /**
      * @param FileMapper $mapper
@@ -57,7 +48,6 @@ class View implements ViewInterface
     public function __construct(FileMapper $mapper, CaptureLayout $capture, ProcceserEngine $engine)
     {
         $this->mapper = $mapper;
-        $this->capture = $capture;
         $this->engine = $engine;
     }
 
@@ -67,9 +57,9 @@ class View implements ViewInterface
      *
      * @throw \Dune\Pine\Exception\ViewNotFound
      *
-     * @return string|null
+     * @return string|null|bool
      */
-    public function render(string $view, array $data = []): ?string
+    public function render(string $view, array $data = []): string|null|bool
     {
         $this->file = $this->mapper->getPineFile($view);
         $this->var = $data;

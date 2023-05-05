@@ -33,7 +33,6 @@ class ViewLoader
         $mappper = new FileMapper($path, $cachePath, $cacheMode);
         $this->pine = new View(
             $mappper,
-            new CaptureLayout($mappper),
             new ProcceserEngine(
                 new PineCompiler(
                     new CaptureLayout($mappper),

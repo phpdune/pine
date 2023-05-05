@@ -15,9 +15,9 @@ class ProcceserEngine extends AbstractEngine
      * @param  string  $view
      * @param array<string,mixed> $data
      *
-     * @return ?string
+     * @return string|null|bool
      */
-    public function load(string $view, array $data = []): ?string
+    public function load(string $view, array $data = []): string|null|bool
     {
         if($this->mapper->cacheMode() && !$this->mapper->getCacheFile($view)) {
 
@@ -41,14 +41,18 @@ class ProcceserEngine extends AbstractEngine
      *
      * @throw \Throwable
      *
-     * @return string
+     * @return string|null|bool
      */
-    public function execute(string $view, array $data = []): string
+    public function execute(string $view, array $data = []): string|null|bool
     {
         ob_start();
         $outputLevel = ob_get_level();
         try {
             extract($data, EXTR_OVERWRITE);
+            if(is_file($view)) {
+              require $view;
+              return true;
+            }
             eval(" ?>" . $view . "<?php ");
         } catch (\Throwable $e) {
             while (ob_get_level() >= $outputLevel) {

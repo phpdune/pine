@@ -14,7 +14,7 @@ interface ViewInterface
      *
      * @throw \NotFound
      *
-     * @return string|null
+     * @return string|null|bool
      */
-    public function render(string $view, array $data = []): ?string;
+    public function render(string $view, array $data = []): string|null|bool;
 }
