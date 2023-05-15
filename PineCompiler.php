@@ -15,22 +15,16 @@ class PineCompiler
      * @var CaptureLayout
      */
     protected CaptureLayout $layoutCompiler;
-    /**
-     * Dune\Pine\Parser\Parser instance
-     *
-     * @var Parser
-     */
-    protected Parser $parser;
+
     /**
      * CaptureLayout
      * Parser
      *
      * instance setting
      */
-    public function __construct(CaptureLayout $capture, Parser $parser)
+    public function __construct(CaptureLayout $capture)
     {
         $this->layoutCompiler = $capture;
-        $this->parser = $parser;
     }
     /**
      * converting all pine syntax to php
@@ -55,7 +49,6 @@ class PineCompiler
         $template = $this->compileIsset($template);
         $template = $this->compileEmpty($template);
         $template = $this->addNamespace($template);
-        $this->parser->check($template);
         return $template;
     }
     /**
